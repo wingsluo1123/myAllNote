@@ -75,6 +75,34 @@ struct Index {
 }
 ```
 
+### 绝对定位和zIndex层级
+
+.postion()使得组件的位置不再占用原来的位置，而是占用所填写坐标位置
+
+.zIndex()中的参数位置越大，优先级越高，可以覆盖优先级低的组件。如果不写都不写zIndex，那么代码中越后面出现的组件，优先级越高。
+
+```
+Text('boss1')
+        .height(50).width(50).backgroundColor(Color.Green)
+      Text('boss2')
+        .height(50).width(50).backgroundColor(Color.Yellow).position({x: 120, y: 30}).zIndex(1)
+      Text('boss3')
+        .height(50).width(50).backgroundColor(Color.White)
+```
+
+### 层叠布局
+
+```
+Stack({
+        alignContent: Alignment.Bottom
+      }){
+        Text().height(250).width(250).backgroundColor(Color.White)
+        Text().height(150).width(150).backgroundColor(Color.Blue)
+        Text().height(50).width(50).backgroundColor(Color.Yellow)
+
+      }
+```
+
 
 
 ## 案例
@@ -255,6 +283,292 @@ struct Index {
     // .backgroundImageSize(ImageSize.Cover)
     // .expandSafeArea([SafeAreaType.SYSTEM], [SafeAreaEdge.TOP, SafeAreaEdge.BOTTOM])
     // .justifyContent(FlexAlign.SpaceBetween)
+  }
+}
+```
+
+### 人气卡片
+
+```typescript
+@Entry                                  //@指的是装饰器
+@Component                              //约定下方的代码是组件
+struct Index {
+  build() { //构建  一个build只能有一个容器跟组件，即下方的第一个Column
+    Column(){
+      Column(){
+        Image($r('app.media.HEART'))
+          .height('50%')
+          .width('100%')
+          .borderRadius(25)
+        Text('VIP')
+          .height(25)
+          .width(50)
+          .backgroundColor(Color.Yellow)
+          .fontColor(Color.Black)
+          .fontWeight(600)
+          // .padding({left: 10})
+          .textAlign(TextAlign.Center)
+          .fontStyle(FontStyle.Italic)
+          .borderRadius({topLeft: 25, bottomRight: 25})
+          .position({x: 0, y: 0})
+        Row({space: 10}){
+          Image($r('app.media.startIcon'))
+            .height(40)
+            .width(40)
+            .borderRadius(20)
+          Text('author')
+
+        }
+        .margin({top: 10})
+
+      }
+      .height(400 )
+      .backgroundColor(Color.White)
+      .borderRadius(10)
+      .alignItems(HorizontalAlign.Start)
+      .width(200)
+      .border({width: 1})
+      .padding(10)
+    }
+    .backgroundColor(Color.Pink)
+    .padding({left: 10, right: 10})
+    .height('100%')
+    .width('100%')
+    // .backgroundImage($r('app.media.jd_background'))
+    // .backgroundImageSize(ImageSize.Cover)
+    // .expandSafeArea([SafeAreaType.SYSTEM], [SafeAreaEdge.TOP, SafeAreaEdge.BOTTOM])
+    // .justifyContent(FlexAlign.SpaceBetween)
+  }
+}
+```
+
+### 支付宝界面
+
+```typescript
+@Entry                                  //@指的是装饰器
+@Component                              //约定下方的代码是组件
+struct Index {
+  build() { //构建  一个build只能有一个容器跟组件，即下方的第一个Column
+    // 1 整体stack布局 和 底部的tab
+    Stack({alignContent: Alignment.Bottom}) {
+      // 主体展示区
+      Stack({alignContent: Alignment.Top}){
+        // 头部
+        Row(){
+          Column(){
+            Text('北京').fontSize(18).fontColor(Color.White)
+            Text('晴 2℃').fontSize(12).fontColor(Color.White)
+          }
+          .margin({left: 10, right: 10})
+          TextInput({placeholder: '搜索'}).height(40).width(230).backgroundColor(Color.White)
+          Button('搜索')
+            .margin({left: 5})
+            .backgroundColor(Color.Gray)
+        }
+        .width('100%')
+        .height(60)
+        .backgroundColor('#5b73de')
+        .zIndex(1)
+        // 主体页面
+        Scroll(){
+          Column() {
+            Row(){
+              Column(){
+                Image($r('app.media.startIcon')).height(20).width(20)
+                Text('扫一扫')
+              }
+              .layoutWeight(1)
+              Column(){
+                Image($r('app.media.startIcon')).height(20).width(20)
+                Text('余额')
+              }
+              .layoutWeight(1)
+              Column(){
+                Image($r('app.media.startIcon')).height(20).width(20)
+                Text('收付款')
+              }
+              .layoutWeight(1)
+            }
+            .width('100%')
+            .backgroundColor('#5b73de')
+
+            Column({space: 10}){
+                Row(){
+                  Column(){
+                    Image($r('app.media.startIcon'))
+                      .height(30)
+                      .width(30)
+                      .borderRadius(10)
+                    Text('嘀嘀打车')
+                  }
+                  .layoutWeight(1)
+                  Column(){
+                    Image($r('app.media.startIcon'))
+                      .height(30)
+                      .width(30)
+                      .borderRadius(10)
+                    Text('嘀嘀打车')
+                  }
+                  .layoutWeight(1)
+                  Column(){
+                    Image($r('app.media.startIcon'))
+                      .height(30)
+                      .width(30)
+                      .borderRadius(10)
+                    Text('嘀嘀打车')
+                  }
+                  .layoutWeight(1)
+                }
+                .margin({top: 10})
+
+              Row(){
+                Column(){
+                  Image($r('app.media.startIcon'))
+                    .height(30)
+                    .width(30)
+                    .borderRadius(10)
+                  Text('嘀嘀打车')
+                }
+                .layoutWeight(1)
+                Column(){
+                  Image($r('app.media.startIcon'))
+                    .height(30)
+                    .width(30)
+                    .borderRadius(10)
+                  Text('嘀嘀打车')
+                }
+                .layoutWeight(1)
+                Column(){
+                  Image($r('app.media.startIcon'))
+                    .height(30)
+                    .width(30)
+                    .borderRadius(10)
+                  Text('嘀嘀打车')
+                }
+                .layoutWeight(1)
+              }
+              .margin({top: 10})
+
+              Row(){
+                Column(){
+                  Image($r('app.media.startIcon'))
+                    .height(30)
+                    .width(30)
+                    .borderRadius(10)
+                  Text('嘀嘀打车')
+                }
+                .layoutWeight(1)
+                Column(){
+                  Image($r('app.media.startIcon'))
+                    .height(30)
+                    .width(30)
+                    .borderRadius(10)
+                  Text('嘀嘀打车')
+                }
+                .layoutWeight(1)
+                Column(){
+                  Image($r('app.media.startIcon'))
+                    .height(30)
+                    .width(30)
+                    .borderRadius(10)
+                  Text('嘀嘀打车')
+                }
+                .layoutWeight(1)
+              }
+              .margin({top: 10})
+
+              Row({space: 10}){
+                  Image($r('app.media.HEART'))
+                    .height(200)
+                    .width(100)
+                    .borderRadius(10)
+
+                Image($r('app.media.HEART'))
+                  .height(200)
+                  .width(100)
+                  .borderRadius(10)
+
+                Image($r('app.media.HEART'))
+                  .height(200)
+                  .width(100)
+                  .borderRadius(10)
+              }
+              Row({space: 10}){
+                Image($r('app.media.HEART'))
+                  .height(200)
+                  .width(100)
+                  .borderRadius(10)
+
+                Image($r('app.media.HEART'))
+                  .height(200)
+                  .width(100)
+                  .borderRadius(10)
+
+                Image($r('app.media.HEART'))
+                  .height(200)
+                  .width(100)
+                  .borderRadius(10)
+              }
+              Row({space: 10}){
+                Image($r('app.media.HEART'))
+                  .height(200)
+                  .width(100)
+                  .borderRadius(10)
+
+                Image($r('app.media.HEART'))
+                  .height(200)
+                  .width(100)
+                  .borderRadius(10)
+
+                Image($r('app.media.HEART'))
+                  .height(200)
+                  .width(100)
+                  .borderRadius(10)
+              }
+            }
+            .width('100%')
+            .height('100%')
+            .backgroundColor(Color.White)
+            .borderRadius(20)
+          }
+          .height('100%')
+          .width('100%')
+
+
+        }
+        .width('100%')
+        .padding({top: 60, bottom: 60})
+      }
+      .width('100%')
+      .height('100%')
+      // 底部tab导航区
+      Row(){
+        Column(){
+          Image($r('app.media.startIcon'))
+            .width(35)
+          Text('我的')
+        }
+        .layoutWeight(1)
+        Column(){
+          Image($r('app.media.startIcon'))
+            .width(35)
+          Text('首页')
+        }
+        .layoutWeight(1)
+        Column(){
+          Image($r('app.media.startIcon'))
+            .width(35)
+          Text('理财')
+        }
+        .layoutWeight(1)
+      }
+      .width('100%')
+      .height(60)
+      .backgroundColor('#fbfcfe')
+    }
+    .height('100%')
+    .width('100%')
+    .backgroundColor('#5b73de')
   }
 }
 ```
